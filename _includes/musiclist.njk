@@ -1,0 +1,21 @@
+{# {%- css %}.musiclist { counter-reset: start-from {{ (musiclistCounter or musiclist.length) + 1 }} }{% endcss %}
+<ol reversed class="musiclist grid">
+{% for post in musiclist | reverse %}
+    <li class="musiclist-item">
+        <h2>{{ post.data.title }}</h2>
+        {% if post.data.spotify %}
+            {% spotify_embed post.data.spotify %}
+        {% endif %}
+        {% if post.data.apple %}
+            <a href="{{ post.data.apple }}">Listen on Apple Music</a>
+        {% endif %}
+    </li>
+{% endfor %}
+</ol> #}
+
+{%- css %}.musiclist { counter-reset: start-from {{ (musiclistCounter or musiclist.length) + 1 }} }{% endcss %}
+<ol reversed class="musiclist grid">
+{% for post in musiclist | reverse %}
+	<li class="musiclist-item">{{ post.content | safe }}</li>
+{% endfor %}
+</ol>

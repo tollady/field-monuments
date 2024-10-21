@@ -1,16 +1,33 @@
 ---
 layout: layouts/base.njk
 ---
-<!-- Delete this block, which will also remove the component CSS from the bundle -->
-{%- css %}{% include "public/css/message-box.css" %}{% endcss %}
-<div class="message-box">
-	<ol>
-		<li>Edit <code>_data/metadata.js</code> with your blog’s information.</li>
-		<li>(Optional) Edit <code>eleventy.config.js</code> with your <a href="https://www.11ty.dev/docs/config/">configuration preferences</a>.</li>
-		<li>Delete this message from <code>_includes/layouts/home.njk</code>.</li>
-	</ol>
-	<p><em>This is an <a href="https://www.11ty.dev/">Eleventy project</a> created from the <a href="https://github.com/11ty/eleventy-base-blog"><code>eleventy-base-blog</code> repo</a>.</em></p>
-</div>
-<!-- Stop deleting -->
+{% include "home-pic.njk" %}
 
-{{ content | safe }}
+<section>
+    <div class="wrapper">
+        <h1>Northern Naarm indie rock band making music at the bottom of the world.</h1>    
+    </div>
+</section>
+
+<section>
+    <div class="wrapper grid">
+        <div class="release-block">
+            <h2>Latest release</h2>
+            {% for post in collections.musicreleases | reverse %}
+                {% if loop.index0 < 1 %}
+                    {{ post.content | safe }}
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="gigs-block">
+            <h2>Upcoming gigs</h2>
+            {# <img class="margin" src="img/old-bar-gig-poster.jpg"></img>  #}
+            <p>Saturday 9th November 2024 - The Old Bar, Fitzroy<br />
+            <a href="https://www.theoldbar.com.au/gigs/house-of-light-sbahn-winternationale-field-monument">Details and tickets</a></p>
+        </div>
+        <div class="news-block">
+            <h2>Latest news</h2>
+            {{ content | safe }}
+        </div>
+    </div>
+</section>

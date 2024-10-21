@@ -7,63 +7,78 @@
 		<meta name="description" content="{{ description or metadata.description }}">
 		<link rel="alternate" href="feed/feed.xml" type="application/atom+xml" title="{{ metadata.title }}">
 
-		{#- Uncomment this if you’d like folks to know that you used Eleventy to build your site!  #}
-		{#- <meta name="generator" content="{{ eleventy.generator }}"> #}
+		<script src="https://kit.fontawesome.com/736160f321.js" crossorigin="anonymous"></script>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
-		{#-
-		Plain-text bundles are provided via the `eleventy-plugin-bundle` plugin:
-		1. CSS:
-			* Add to a per-page bundle using `{% css %}{% endcss %}`
-			* Retrieve bundle content using `{% getBundle "css" %}` or `{% getBundleFileUrl "css" %}`
-		2. Or for JavaScript:
-			* Add to a per-page bundle using `{% js %}{% endjs %}`
-			* Retrieve via `{% getBundle "js" %}` or `{% getBundleFileUrl "js" %}`
-		3. Learn more: https://github.com/11ty/eleventy-plugin-bundle
-		#}
-
-		{#- Add an arbitrary string to the bundle #}
-		{%- css %}/* This is an arbitrary CSS string added to the bundle */{% endcss %}
-		{#- Add the contents of a file to the bundle #}
-		{%- css %}{% include "public/css/index.css" %}{% endcss %}
-		{#- Or you can add from node_modules #}
-		{# {%- css %}{% include "node_modules/prismjs/themes/prism-okaidia.css" %}{% endcss %} #}
-
-		{#- Render the CSS bundle using inlined CSS (for the fastest site performance in production) #}
-		<style>{% getBundle "css" %}</style>
-		{#- Renders the CSS bundle using a separate file, if you can't set CSP directive style-src: 'unsafe-inline' #}
-		{#- <link rel="stylesheet" href="{% getBundleFileUrl "css" %}"> #}
-
-		{#- Add the heading-anchors web component to the JavaScript bundle #}
-		{%- js %}{% include "node_modules/@zachleat/heading-anchors/heading-anchors.js" %}{% endjs %}
+		<link rel="stylesheet" href="/css/normalize.css">
+		<link rel="stylesheet" href="/css/fm.css">
 	</head>
-	<body>
-		<a href="#skip" class="visually-hidden">Skip to main content</a>
-
+	<body class="{% if page.fileSlug %}{{ page.fileSlug }}{% else %}home{% endif %}">
+		<a href="#main-content" class="skip-link">Skip to main content</a>
 		<header>
-			<a href="/" class="home-link">{{ metadata.title }}</a>
-
-			{#- Read more about `eleventy-navigation` at https://www.11ty.dev/docs/plugins/navigation/ #}
-			<nav>
-				<h2 class="visually-hidden">Top level navigation menu</h2>
-				<ul class="nav">
-				{%- for entry in collections.all | eleventyNavigation %}
-					<li class="nav-item"><a href="{{ entry.url }}"{% if entry.url == page.url %} aria-current="page"{% endif %}>{{ entry.title }}</a></li>
-				{%- endfor %}
-				</ul>
-			</nav>
+			<div class="wrapper">
+				<nav class="navbar main">
+					<div class="nav-group">
+						<div class="logo">
+							<a href="/">Field Monuments</a>
+						</div>
+						<ul class="nav-links">
+							{%- for entry in collections.all | eleventyNavigation %}
+							<li class="nav-item"><a href="{{ entry.url }}"{% if entry.url == page.url %} aria-current="page"{% endif %}>{{ entry.title }}</a></li>
+							{%- endfor %}
+						</ul>
+					</div>
+					<div class="social-icons">
+						<ul>
+							<li class="nav-item"><a href="https://open.spotify.com/artist/70iNqhwDtcIf5ITwPWN7JQ?si=YBWQTucgTJK7mRmXnL1lUw"><i class="fa-brands fa-spotify">Spotify</i></a>
+							<li class="nav-item"><a href="https://music.apple.com/au/artist/field-monuments/1675214482"><i class="fa-brands fa-apple">Apple Music</i></a>
+							<li class="nav-item"><a href="https://www.instagram.com/fieldmonuments/"><i class="fa-brands fa-instagram">Instagram</i></a>
+							<li class="nav-item"><a href="https://www.youtube.com/@fieldmonuments"><i class="fa-brands fa-youtube">Youtube</i></a>
+							<li class="nav-item"><a href="https://fieldmonuments.bandcamp.com/"><i class="fa-brands fa-bandcamp">Bandcamp</i></a>
+						</ul>
+					</div>
+					<button class="mobile-nav-button" data-a11y-dialog-show="mobile-nav" onclick="toggle('mobile-nav')">Menu</button>
+				</nav>
+				<div class="mobile-nav" id="mobile-nav" style="display: none;">
+					<ul class="mobile-nav-links">
+						{%- for entry in collections.all | eleventyNavigation %}
+							<li class="nav-item"><a href="{{ entry.url }}"{% if entry.url == page.url %} aria-current="page"{% endif %}>{{ entry.title }}</a></li>
+						{%- endfor %}
+					</ul>
+					<ul class="mobile-social-icons">
+						<li class="nav-item"><a href="https://open.spotify.com/artist/70iNqhwDtcIf5ITwPWN7JQ?si=YBWQTucgTJK7mRmXnL1lUw"><i class="fa-brands fa-spotify">Spotify</i></a>
+						<li class="nav-item"><a href="https://music.apple.com/au/artist/field-monuments/1675214482"><i class="fa-brands fa-apple">Apple Music</i></a>
+						<li class="nav-item"><a href="https://www.instagram.com/fieldmonuments/"><i class="fa-brands fa-instagram">Instagram</i></a>
+						<li class="nav-item"><a href="https://www.youtube.com/@fieldmonuments"><i class="fa-brands fa-youtube">Youtube</i></a>
+						<li class="nav-item"><a href="https://fieldmonuments.bandcamp.com/"><i class="fa-brands fa-bandcamp">Bandcamp</i></a>
+					</ul>
+				</div>
+			</div>
 		</header>
 
-		<main id="skip">
-			<heading-anchors>
-				{{ content | safe }}
-			</heading-anchors>
+		<main tabindex="-1" id="main-content">
+			{{ content | safe }}
 		</main>
 
 		<footer>
-			<p><em>Built with <a href="https://www.11ty.dev/">{{ eleventy.generator }}</a></em></p>
+			<div class="wrapper grid">
+				<div class="copyright">&copy; Copyright Warm Cola Recordings 2024</div>
+				<div class="links">
+					<nav>
+						<ul role="list">
+							<li class="nav-item"><a href="https://open.spotify.com/artist/70iNqhwDtcIf5ITwPWN7JQ?si=YBWQTucgTJK7mRmXnL1lUw"><i class="fa-brands fa-spotify">Spotify</i></a>
+							<li class="nav-item"><a href="https://music.apple.com/au/artist/field-monuments/1675214482"><i class="fa-brands fa-apple">Apple Music</i></a>
+							<li class="nav-item"><a href="https://www.instagram.com/fieldmonuments/"><i class="fa-brands fa-instagram">Instagram</i></a>
+							<li class="nav-item"><a href="https://www.youtube.com/@fieldmonuments"><i class="fa-brands fa-youtube">Youtube</i></a>
+							<li class="nav-item"><a href="https://fieldmonuments.bandcamp.com/"><i class="fa-brands fa-bandcamp">Bandcamp</i></a>
+						</ul>
+					</nav>
+				</div>
+			</div>
 		</footer>
-
-		<!-- This page `{{ page.url | htmlBaseUrl }}` was built on {% currentBuildDate %} -->
-		<script type="module" src="{% getBundleFileUrl "js" %}"></script>
+		
+		<script src="/js/scripts.js"></script>
 	</body>
 </html>

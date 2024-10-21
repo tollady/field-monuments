@@ -6,6 +6,8 @@ import { eleventyImageTransformPlugin } from "@11ty/eleventy-img";
 
 import pluginFilters from "./_config/filters.js";
 
+import embedSpotify from "eleventy-plugin-embed-spotify";
+
 /** @param {import("@11ty/eleventy").UserConfig} eleventyConfig */
 export default async function(eleventyConfig) {
 	// Drafts, see also _data/eleventyDataSchema.js
@@ -38,6 +40,8 @@ export default async function(eleventyConfig) {
 	eleventyConfig.addBundle("js", {
 		toFileDirectory: "dist",
 	});
+
+	eleventyConfig.addPlugin(embedSpotify);
 
 	// Official plugins
 	eleventyConfig.addPlugin(pluginSyntaxHighlight, {
@@ -148,4 +152,6 @@ export const config = {
 	// folder name and does **not** affect where things go in the output folder.
 
 	// pathPrefix: "/",
+
+
 };

@@ -1,8 +1,28 @@
-<h1>Tags</h1>
+---
+pagination:
+  data: collections
+  size: 1
+  alias: tag
+  filter:
+    - all
+    - post
+    - posts
+    - tagList
+  addAllPagesToCollections: true
+layout: layouts/home.njk
+eleventyComputed:
+  title: "Tagged {{ tag }}"
+  permalink: |
+    function(data) {
+      if (data.tag === 'musicreleases') {
+        return '/special-tags/musicreleases/index.html';
+      }
+      return `/all-tags/${this.slugify(data.tag)}/index.html`;
+    }
+---
+<h1>Tagged “{{ tag }}”</h1>
 
-<ul>
-{% for tag in collections | getKeys | filterTagList %}
-	{% set tagUrl %}/tags/{{ tag | slugify }}/{% endset %}
-	<li><a href="{{ tagUrl }}" class="post-tag">{{ tag }}</a></li>
-{% endfor %}
-</ul>
+{% set postslist = collections[ tag ] %}
+{% include "postslist.njk" %}
+
+<p>See <a href="/tags/">all tags

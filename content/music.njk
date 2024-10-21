@@ -1,0 +1,19 @@
+---
+layout: layouts/base.njk
+eleventyNavigation:
+  key: Music
+  order: 3
+---
+<section>
+    <div class="wrapper">
+      <h1>Music</h1>
+      {% set musiclist = collections.musicreleases %}
+<ol reversed class="musiclist grid">
+{% for post in musiclist | reverse %}
+	<li class="musiclist-item">{{ post.content | safe }}</li>
+{% endfor %}
+</ol>
+    </div>
+</section>
+
+
